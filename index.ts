@@ -15,7 +15,7 @@ server.app.use(cors({ origin: true, credentials: true }));
 // Rutas de Servicios
 server.app.use('/', router);
 
-
+// Inicializar
 server.start(() => {
     console.log(`Servidor corriendo en el puerto ${server.port}`);
 });
