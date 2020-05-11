@@ -12,10 +12,10 @@ server.app.use(bodyParser.json());
 //CORS
 server.app.use(cors({ origin: true, credentials: true }));
 
-// Rutas de Servicios
+// Rutas de Servicios rest
 server.app.use('/', router);
 
-// Inicializar
+// Inicializar servidor con sockets
 server.start(() => {
     console.log(`Servidor corriendo en el puerto ${server.port}`);
 });
