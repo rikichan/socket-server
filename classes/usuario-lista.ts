@@ -20,7 +20,7 @@ export class UsuariosLista {
 
     public actualizarNombre(id: string, nombre: string) {
 
-        // por DB se hace de otra forma
+        // por DB se hace de otra forma, consultar tabla-colección y demas procesos
         for (const usuario of this.lista) {
             if (usuario.id === id) {
                 usuario.nombre = nombre;
@@ -34,7 +34,7 @@ export class UsuariosLista {
 
     // Obtener lista de usuarios conectados
     public getLista() {
-        return this.lista;
+        return this.lista.filter(usuario => usuario.nombre !== 'sin-nombre');
     }
 
     // Obtener un usuario

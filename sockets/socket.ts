@@ -13,11 +13,15 @@ export const conectarCliente = (cliente: Socket) => {
 
 
 // Desconexión de usuario
-export const desconectar = (cliente: Socket
+export const desconectar = (cliente: Socket, io: socketIO.Server
 ) => {
     cliente.on('disconnect', () => {
+        console.log(`Cliente ${cliente.id} desconectado`);
+
         usuariosConectados.borrarUsuario(cliente.id);
-        // console.log(`Cliente ${cliente.id} desconectado`);
+
+        io.emit('usuarios-activos', usuariosConectados.getLista());
+
     });
 }
 
@@ -39,10 +43,29 @@ export const confUser = (cliente: Socket, io: socketIO.Server) => {
 
         usuariosConectados.actualizarNombre(cliente.id, payload.nombre)
 
+        io.emit('usuarios-activos', usuariosConectados.getLista());
+
         callback({
             ok: true,
             mensaje: `Usuario ${payload.nombre}, configurado`
         });
+
+    });
+}
+
+// Obtener usuarios activos
+export const obtenerUsuarios = (cliente: Socket, io: socketIO.Server) => {
+
+    cliente.on('obtener-usuarios', () => {
+
+        // utilizando elmismo cliente para emitir 
+        //cliente.emit('usuarios-activos', usuariosConectados.getLista());
+
+        // Emite a todos
+        // io.emit('usuarios-activos', usuariosConectados.getLista());
+
+        // Emite solo a la persona que acaba de entrar
+        io.to(cliente.id).emit('usuarios-activos', usuariosConectados.getLista());
 
     });
 }
